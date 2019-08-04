@@ -39,6 +39,12 @@ def statment(invoice, plays):
 
     return result
 
+def anountFor(performance):
+
+
+
+
+
 
 if __name__ == '__main__':
     with open('invoices.json', 'r', encoding='utf-8') as f:
