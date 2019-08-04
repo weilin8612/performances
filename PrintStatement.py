@@ -10,21 +10,7 @@ def statment(invoice, plays):
 
     for perf in invoice['performances']:
         play = plays[perf['playID']]
-        thisAmount = 0
-
-        if play['type'] == 'tragedy':
-            thisAmount = 40000
-            if perf['audience'] > 30:
-                thisAmount += 1000* (perf['audience'] -30)
-
-        elif play['type'] == 'comedy':
-            thisAmount = 30000
-            if perf['audience'] > 20:
-                thisAmount += 10000 + 500 * (perf['audience'] - 20)
-            thisAmount += 300 * perf['audience']
-
-        else:
-            print('PerformancesTypeError')
+        thisAmount = anountFor(perf, play)
 
         volumeCreadits += max(perf['audience'] - 30, 0)
 
@@ -39,8 +25,22 @@ def statment(invoice, plays):
 
     return result
 
-def anountFor(performance):
+def anountFor(perf, play):
+    thisAmount = 0
+    if play['type'] == 'tragedy':
+        thisAmount = 40000
+        if perf['audience'] > 30:
+            thisAmount += 1000 * (perf['audience'] - 30)
 
+    elif play['type'] == 'comedy':
+        thisAmount = 30000
+        if perf['audience'] > 20:
+            thisAmount += 10000 + 500 * (perf['audience'] - 20)
+        thisAmount += 300 * perf['audience']
+
+    else:
+        print('PerformancesTypeError')
+    return thisAmount
 
 
 
