@@ -25,22 +25,22 @@ def statment(invoice, plays):
 
     return result
 
-def anountFor(perf, play):
-    thisAmount = 0
-    if play['type'] == 'tragedy':
-        thisAmount = 40000
-        if perf['audience'] > 30:
-            thisAmount += 1000 * (perf['audience'] - 30)
+def anountFor(aperformance_dict, play_dict):
+    result = 0
+    if play_dict['type'] == 'tragedy':
+        result = 40000
+        if aperformance_dict['audience'] > 30:
+            result += 1000 * (aperformance_dict['audience'] - 30)
 
-    elif play['type'] == 'comedy':
-        thisAmount = 30000
-        if perf['audience'] > 20:
-            thisAmount += 10000 + 500 * (perf['audience'] - 20)
-        thisAmount += 300 * perf['audience']
+    elif play_dict['type'] == 'comedy':
+        result = 30000
+        if aperformance_dict['audience'] > 20:
+            result += 10000 + 500 * (aperformance_dict['audience'] - 20)
+        result += 300 * aperformance_dict['audience']
 
     else:
         print('PerformancesTypeError')
-    return thisAmount
+    return result
 
 
 
