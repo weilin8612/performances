@@ -4,35 +4,50 @@ import json
 
 def statment(invoice, plays):
 
-    totalAmout = 0
-    volumeCreadits = 0
     result = 'Statement for {}'.format(invoice['customer'])
 
     for perf in invoice['performances']:
-        play = plays[perf['playID']]
-        thisAmount = anountFor(perf, play)
+        result += '{}: {:.2f}  {} seats'.format(playFor(perf)['name'], anountFor(perf) / 100, perf['audience'])
 
-        volumeCreadits += max(perf['audience'] - 30, 0)
-
-        if play['type'] == 'comedy':
-            volumeCreadits += floor(perf['audience'] / 5)
-
-        result += '{}: {:.2f}  {} seats'.format(play['name'], thisAmount / 100, perf['audience'])
-        totalAmout += thisAmount
+    totalAmout = appleSauce()
+    volumeCreadits = totalVolumeCreadits()
 
     result += 'Amount owed is {}'.format(totalAmout / 100)
     result += 'You earned {} credits'.format(volumeCreadits)
 
     return result
 
-def anountFor(aperformance_dict, play_dict):
+
+def appleSauce():
+    result =0
+    for perf in invoice['performances']:
+        result += anountFor(perf)
+    return result
+
+def totalVolumeCreadits():
+    result =0
+    for perf in invoice['performances']:
+        result += volumeCreaditsFor(perf)
+    return result
+
+
+def volumeCreaditsFor(perf):
     result = 0
-    if play_dict['type'] == 'tragedy':
+    result += max(perf['audience'] - 30, 0)
+    if playFor(perf)['type'] == 'comedy':
+        result += floor(perf['audience'] / 5)
+    return result
+
+
+
+def anountFor(aperformance_dict):
+    result = 0
+    if playFor(aperformance_dict)['type'] == 'tragedy':
         result = 40000
         if aperformance_dict['audience'] > 30:
             result += 1000 * (aperformance_dict['audience'] - 30)
 
-    elif play_dict['type'] == 'comedy':
+    elif playFor(aperformance_dict)['type'] == 'comedy':
         result = 30000
         if aperformance_dict['audience'] > 20:
             result += 10000 + 500 * (aperformance_dict['audience'] - 20)
@@ -42,6 +57,8 @@ def anountFor(aperformance_dict, play_dict):
         print('PerformancesTypeError')
     return result
 
+def playFor(aperformance_dict):
+    return plays[aperformance_dict['playID']]
 
 
 
